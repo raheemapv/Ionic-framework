@@ -1,35 +1,51 @@
 angular.module('todo', ['ionic'])
-.controller('TodoCtrl', function($scope, $ionicModal) {
 
-  $scope.items =[]
+.config(function($stateProvider, $urlRouterProvider) {
 
-   $ionicModal.fromTemplateUrl('new-task.html', {
-     scope: $scope,
-     animation: 'slide-in-up'
-   }).then(function(modal) {
-     $scope.modal = modal
-   })  
+  $stateProvider
+    .state('tabs', {
+      cache: false,
+      url: "/tab",
+      abstract: true,
+      templateUrl: "templates/tabs.html"
+    })
+    .state('tabs.home', {
+      url: "/home",
+      views: {
+        'home-tab': {
+          templateUrl: "templates/home.html"
+        }
+      }
+    })
+    .state('tabs.facts', {
+      url: "/facts",
+      views: {
+        'home-tab': {
+          templateUrl: "templates/facts.html"
+        }
+      }
+    })
+    .state('tabs.facts2', {
+      url: "/facts2",
+      views: {
+        'home-tab': {
+          templateUrl: "templates/facts2.html"
+        }
+      }
+    })
+    .state('tabs.contact', {
+      url: "/contact",
+      views: {
+        'contact-tab': {
+          templateUrl: "templates/contact.html"
+        }
+      }
+    });
 
-   $scope.openModal = function() {
-     $scope.modal.show();
-   }
 
-   $scope.closeModal = function() {
-     $scope.modal.hide();
-   };
+   $urlRouterProvider.otherwise("/tab/home");
 
-   $scope.$on('$destroy', function() {
-     $scope.modal.remove();
-   });
+})
+/*.controller('TodoCtrl', function($scope) {
 
-   //function to add items to the existing list
-   $scope.AddItem = function (data) {
-     $scope.items.push({
-       task: data.newItem,
-       status: 'not done'
-     });
-     data.newItem = '';
-     $scope.closeModal();
-   };
-
- })
+ })*/
